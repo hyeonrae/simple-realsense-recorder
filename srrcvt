@@ -1,0 +1,15 @@
+#!/usr/bin/sh
+
+set -e
+
+FILE=$1
+filename="${FILE%.*}"
+
+if [ -d ./$filename ]; then
+    echo 'the dir already exists'
+else
+    echo 'bag -> png start'
+    mkdir $filename
+    rs-convert -c -i $1 -p "$filename/cvt"
+    echo 'bag -> png complete'
+fi

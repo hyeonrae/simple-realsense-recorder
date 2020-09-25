@@ -1,0 +1,50 @@
+#!/usr/bin/bash
+
+set -e
+
+DESTDIR="${HOME}/.srr/record"
+#DESTDIR="record"
+BUFFER="/tmp"
+now="$(date +%Y%m%d%H%M%S)"
+howlong=${1:-30}
+filename=${2:-$now}
+
+trap clean INT
+
+clean() {
+    [ -f "${BUFFER}/${filename}.bag" ] && rm "${BUFFER}/${filename}.bag"
+    [ -d "${BUFFER}/${filename}" ] && rm -rf "${BUFFER}/${filename}"
+    ls *.log > /dev/null && rm *.log
+    echo ''
+}
+
+countdown() {
+    echo ''
+    for ((i=3;i>0;i--))
+    do
+        printf "  Count Down $i$i$i$i$i$i$i$i$i$i\r"
+        sleep 1
+    done
+    echo "  Recording start [${howlong}s] >>   "
+    echo ""
+}
+
+[ -d $DESTDIR ] || mkdir -p $DESTDIR
+
+countdown
+
+rs-record  \
+    -f "${BUFFER}/${filename}.bag" \
+    -t "${howlong}"
+
+srrcvt \
+    "${BUFFER}/${filename}.bag"
+
+srrmkvid \
+    "${BUFFER}/${filename}"
+
+echo ""
+[ -d "/tmp/${filename}" ] && mv "/tmp/${filename}" "${DESTDIR}/" && echo "  Files are saved in ${DESTDIR}"
+
+set +e
+clean

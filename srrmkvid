@@ -1,0 +1,15 @@
+#!/usr/bin/sh
+
+set -e
+
+dirname=$1
+
+echo 'png -> avi start'
+
+ffmpeg \
+    -hide_banner -loglevel warning \
+    -framerate 30 \
+    -start_number 1 -i "${dirname}/cvt_Color_%d.png" \
+    -vcodec mpeg4 "${dirname}/out.avi"
+
+echo 'png -> avi complete'
