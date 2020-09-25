@@ -16,10 +16,10 @@ Uninstall
 - sh uninstall.sh
 
 Quick Strat
-- ./srr <recording time: default=30s> <dirname: default=current time>
+- srr <recording time: default=30s> <dirname: default=current time>
 
 
 Examples
-- ./srr
-- ./srr 10 abc
+- srr
+- srr 10 abc
 
