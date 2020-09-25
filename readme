@@ -2,7 +2,7 @@
 = srr : simple realsense (RGB) recorder =
 
 date : 2020-09-24
-version : 0.1 , very minimal
+version : 0.1 , very minimal features
 
 Dependency
 - bash
